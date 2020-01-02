@@ -30,7 +30,9 @@ class BlogIndex extends React.Component {
                     {title}
                   </Link>
                 </h3>
-                <small>{node.frontmatter.date}</small>
+                <small title={node.frontmatter.dateFull}>
+                  {node.frontmatter.date}
+                </small>
               </header>
               <section>
                 <p
@@ -56,7 +58,10 @@ export const pageQuery = graphql`
         title
       }
     }
-    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
+    allMarkdownRemark(
+        sort: { fields: [frontmatter___date], order: DESC }
+        filter: { frontmatter: { published: { eq: true } } }
+    ) {
       edges {
         node {
           excerpt
@@ -65,6 +70,7 @@ export const pageQuery = graphql`
           }
           frontmatter {
             date(formatString: "MMMM DD, YYYY")
+            dateFull: date(formatString: "YYYY-MM-DD")
             title
             description
           }
