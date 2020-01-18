@@ -51,6 +51,7 @@
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
+    "deploy": "aws s3 sync public/ s3://www.ivantanev.com --profile=www.ivantanev.com",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "npm run develop",
     "serve": "gatsby serve",

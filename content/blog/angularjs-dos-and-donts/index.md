@@ -38,12 +38,12 @@ So, let me first show you a declarative implementation of Krasimir's form:
     ng-minlength="10"
   />
   <div ng-messages="RegisterForm.username.$error">
-    <span ng-message="required" class="help-block"
-      >You must enter a username</span
-    >
-    <span ng-message="minlength" class="help-block"
-      >Username must be at least 10 chars long</span
-    >
+    <span ng-message="required" class="help-block">
+      You must enter a username
+    </span>
+    <span ng-message="minlength" class="help-block">
+      Username must be at least 10 chars long
+    </span>
   </div>
 
   <label for="username">Password</label>
@@ -56,10 +56,12 @@ So, let me first show you a declarative implementation of Krasimir's form:
     ng-minlength="6"
   />
   <div ng-messages="RegisterForm.password.$error">
-    <span ng-message="required" class="help-block"
-      >You must enter a password</span
-    >
-    <span ng-message="minlength" class="help-block">Password is too short</span>
+    <span ng-message="required" class="help-block">
+      You must enter a password
+    </span>
+    <span ng-message="minlength" class="help-block">
+      Password is too short
+    </span>
   </div>
 
   <button
@@ -241,12 +243,12 @@ Enter <a href="https://docs.angularjs.org/api/ngMessages/directive/ngMessages">n
     ng-minlength="10"
   />
   <div ng-messages="RegisterForm.username.$error">
-    <span ng-message="required" class="help-block"
-      >You must enter a username</span
-    >
-    <span ng-message="minlength" class="help-block"
-      >Username must be at least 10 chars long</span
-    >
+    <span ng-message="required" class="help-block">
+      You must enter a username
+    </span>
+    <span ng-message="minlength" class="help-block">
+      Username must be at least 10 chars long
+    </span>
   </div>
 
   <label for="username">Password</label><br />
@@ -259,10 +261,12 @@ Enter <a href="https://docs.angularjs.org/api/ngMessages/directive/ngMessages">n
     ng-minlength="6"
   />
   <div ng-messages="RegisterForm.password.$error">
-    <span ng-message="required" class="help-block"
-      >You must enter a password</span
+    <span ng-message="required" class="help-block">
+      You must enter a password
+    </span>
+    <span ng-message="minlength" class="help-block">
+      Password is too short</span
     >
-    <span ng-message="minlength" class="help-block">Password is too short</span>
   </div>
 
   <button
@@ -302,14 +306,18 @@ Additionally, if you have errors that commonly show up in your forms (like `requ
 
 And if you're stuck on pre 1.3 Angular, here is a simple hack to get a similar effect:
 
+<!-- prettier-ignore-start -->
 ```html
-<span class="help-block" ng-repeat="(error, _) in RegisterForm.password.$error"
-  >{{ { "required": "You must enter a password", "minlength": "Password is too
-  short", }[error] || error }}</span
->
+<span class="help-block" ng-repeat="(error, _) in RegisterForm.password.$error">{{
+  {
+    "required": "You must enter a password",
+    "minlength": "Password is too short",
+  }[error] || error
+}}</span>
 ```
+<!-- prettier-ignore-end -->
 
-####And there you have it, a full implementation of the original form in just a few lines of declarative HTML, and no JavaScript at all.
+#### And there you have it, a full implementation of the original form in just a few lines of declarative HTML, and no JavaScript at all.
 
 Good job, us!
 
@@ -416,26 +424,45 @@ So here is a custom directive for validating float input that allows up to two d
 }])
 ```
 
-And in our form:
+<p style="margin-top: 1.7rem">
+And in our form:</p>
 
 ```html
- <div class="form-group">
-    <label for="donation" class="control-label">Donation in USD</label>
-    <input type="number" name="donation" id="donation" class="form-control" ng-model="user.donation" ng-required="true" min="5"
-           ad-float />
-    <div ng-messages="RegisterForm['donation'].$error" ng-messages-multiple="false">
-      <span ng-message="required" class="help-block">You must make a donation to register</span>
-      <span ng-message="min" class="help-block">Donations must be more than $5</span>
-      <span ng-message="number" class="help-block">Donation must be a valid dollar amount, like '13.37'</span>
-      <span ng-message="float" class="help-block">Donation must be a valid dollar amount, like '13.37'</span>
-    </div>
+<div class="form-group">
+  <label for="donation" class="control-label">Donation in USD</label>
+  <input
+    type="number"
+    name="donation"
+    id="donation"
+    class="form-control"
+    ng-model="user.donation"
+    ng-required="true"
+    min="5"
+    ad-float
+  />
+  <div
+    ng-messages="RegisterForm['donation'].$error"
+    ng-messages-multiple="false"
+  >
+    <span ng-message="required" class="help-block"
+      >You must make a donation to register</span
+    >
+    <span ng-message="min" class="help-block"
+      >Donations must be more than $5</span
+    >
+    <span ng-message="number" class="help-block"
+      >Donation must be a valid dollar amount, like '13.37'</span
+    >
+    <span ng-message="float" class="help-block"
+      >Donation must be a valid dollar amount, like '13.37'</span
+    >
   </div>
+</div>
 ```
-
 
 > How about a directive that does some DOM manipulation?
 
-Sure, we can do that.
+#### Sure, we can do that.
 
 Bootstrap will properly color form fields in red if we add a `.has-error` class to the `.form-group` element.
 Let's write a directive that does that when it detects that a child element has AngularJS errors set.
@@ -522,156 +549,163 @@ Leverage your framework. Be lazy. Write less code and you will have to maintain 
 <a href="http://plnkr.co/edit/GDeYh5wZCJDpYCtNHOag?p=preview">Live tests for the adFloat directive</a>
 
 ```js
-describe('adFloat', function(){
-  var $scope, $compile, $timeout;
+describe("adFloat", function() {
+  var $scope, $compile, $timeout
   // load the Angular module that holds the directive
-  beforeEach(module('myApp'));
+  beforeEach(module("myApp"))
 
   // use Angular's inject service to get a few services, and then assign them
   // to the local variables defined above
-  beforeEach(inject(function(_$rootScope_, _$compile_, _$timeout_){
-    $scope = _$rootScope_.$new();
-    $compile = _$compile_;
-    $timeout = _$timeout_;
-  }));
+  beforeEach(inject(function(_$rootScope_, _$compile_, _$timeout_) {
+    $scope = _$rootScope_.$new()
+    $compile = _$compile_
+    $timeout = _$timeout_
+  }))
 
   // generic helper for compiling html
   function compile(html) {
-    var elem, compiledElem;
+    var elem, compiledElem
 
-    elem = angular.element(html);
-    compiledElem = $compile(elem)($scope);
+    elem = angular.element(html)
+    compiledElem = $compile(elem)($scope)
 
-    $timeout.flush(); // force all timers that use the $timeout service to execute
-    $scope.$digest(); // execute Angular's digest cycle
+    $timeout.flush() // force all timers that use the $timeout service to execute
+    $scope.$digest() // execute Angular's digest cycle
 
-    return compiledElem;
-  };
+    return compiledElem
+  }
 
   // helper to compile the directive anew for each separate test
   function compileAdFloat() {
-    return compile([
-      '<form name="TestForm">',
+    return compile(
+      [
+        '<form name="TestForm">',
         '<input name="float_input" ng-model="float_val" ad-float />',
-      '</form>',
-    ].join('\n'));
-  };
+        "</form>",
+      ].join("\n")
+    )
+  }
 
-  it('should be valid when empty', function(){
-    compileAdFloat();
+  it("should be valid when empty", function() {
+    compileAdFloat()
 
     // we can check validity directly by accessing form controller -> model controller
-    expect($scope.TestForm.float_input.$valid).toBe(true);
-  });
+    expect($scope.TestForm.float_input.$valid).toBe(true)
+  })
 
-  it('should be ng-invalid-float when given invalid value', function() {
-    var html = compileAdFloat();
-    $scope.TestForm.float_input.$setViewValue('ggbg'); // set an invalid value
-    $scope.$digest();
+  it("should be ng-invalid-float when given invalid value", function() {
+    var html = compileAdFloat()
+    $scope.TestForm.float_input.$setViewValue("ggbg") // set an invalid value
+    $scope.$digest()
 
-    expect($scope.TestForm.float_input.$valid).toBe(false);
-    expect($scope.TestForm.float_input.$error['float']).toBe(true);
-    expect(html.find('input')[0].classList.contains('ng-invalid-float')).toBe(true);
-  });
+    expect($scope.TestForm.float_input.$valid).toBe(false)
+    expect($scope.TestForm.float_input.$error["float"]).toBe(true)
+    expect(html.find("input")[0].classList.contains("ng-invalid-float")).toBe(
+      true
+    )
+  })
 
-  it('should convert a string to a float number with 2 decimal places', function() {
-    compileAdFloat();
-    $scope.TestForm.float_input.$setViewValue('12.3'); // set a valid value
+  it("should convert a string to a float number with 2 decimal places", function() {
+    compileAdFloat()
+    $scope.TestForm.float_input.$setViewValue("12.3") // set a valid value
 
-    expect($scope.float_val).toBe('12.30')
-  });
-});
+    expect($scope.float_val).toBe("12.30")
+  })
+})
 ```
-
 
 <a href="http://plnkr.co/edit/LzlcxTXwZNogwCznPdIE?p=preview">Live tests for the showErrors directive</a>
 
 ```js
-describe('showErrors', function(){
-  var $scope, $compile, $timeout;
+describe("showErrors", function() {
+  var $scope, $compile, $timeout
   // load the Angular module that holds the directive
-  beforeEach(module('myApp'));
+  beforeEach(module("myApp"))
 
   // use Angular's inject service to get a few services, and then assign them
   // to the local variables defined above.
-  beforeEach(inject(function(_$rootScope_, _$compile_, _$timeout_){
-    $scope = _$rootScope_.$new();
-    $compile = _$compile_;
-    $timeout = _$timeout_;
-  }));
+  beforeEach(inject(function(_$rootScope_, _$compile_, _$timeout_) {
+    $scope = _$rootScope_.$new()
+    $compile = _$compile_
+    $timeout = _$timeout_
+  }))
 
   // generic helper for compiling html
   function compile(html) {
-    var elem, compiledElem;
+    var elem, compiledElem
 
-    elem = angular.element(html);
-    compiledElem = $compile(elem)($scope);
+    elem = angular.element(html)
+    compiledElem = $compile(elem)($scope)
 
-    $timeout.flush(); // force all timers that use the $timeout service to execute
-    $scope.$digest(); // execute Angular's digest cycle
+    $timeout.flush() // force all timers that use the $timeout service to execute
+    $scope.$digest() // execute Angular's digest cycle
 
-    return compiledElem;
-  };
+    return compiledElem
+  }
 
   // helper to compile the directive anew for each separate test
   function compileBetterErrors() {
-    return compile([
-      '<form name="TestForm">',
-        '<div show-errors>',
-          '<input type="text" name="username" ng-model="username" ng-required=true class="form-control" />',
-        '</div>',
+    return compile(
+      [
+        '<form name="TestForm">',
+        "<div show-errors>",
+        '<input type="text" name="username" ng-model="username" ng-required=true class="form-control" />',
+        "</div>",
         '<input type="submit" name="submit" value="submit" />',
-      '</form>',
-    ].join('\n'));
-  };
+        "</form>",
+      ].join("\n")
+    )
+  }
 
-  it('should not add the `has-error` class when the input has not been touched', function(){
-    var html = compileBetterErrors();
+  it("should not add the `has-error` class when the input has not been touched", function() {
+    var html = compileBetterErrors()
 
     // we can check validity directly by accessing form controller -> model controller
-    expect($scope.TestForm.username.$valid).toBe(false);
-    expect(html.find('div')[0].classList.contains('has-error')).toBe(false)
-  });
+    expect($scope.TestForm.username.$valid).toBe(false)
+    expect(html.find("div")[0].classList.contains("has-error")).toBe(false)
+  })
 
-  it('should add the `has-error` class when the input has been touched', function(){
-    var html = compileBetterErrors();
-    html.find('input')[0].dispatchEvent(new Event('blur')); // trigger an event on the compiled html
-    $scope.$digest(); // and then execute the digest cycle
+  it("should add the `has-error` class when the input has been touched", function() {
+    var html = compileBetterErrors()
+    html.find("input")[0].dispatchEvent(new Event("blur")) // trigger an event on the compiled html
+    $scope.$digest() // and then execute the digest cycle
 
-    expect($scope.TestForm.username.$valid).toBe(false);
-    expect(html.find('div')[0].classList.contains('has-error')).toBe(true)
-  });
+    expect($scope.TestForm.username.$valid).toBe(false)
+    expect(html.find("div")[0].classList.contains("has-error")).toBe(true)
+  })
 
-  it('should add the `has-error` class when the form has been submitted', function(){
-    var html = compileBetterErrors();
-    $scope.TestForm.$setSubmitted(true);
-    $scope.$digest();
+  it("should add the `has-error` class when the form has been submitted", function() {
+    var html = compileBetterErrors()
+    $scope.TestForm.$setSubmitted(true)
+    $scope.$digest()
 
-    expect($scope.TestForm.username.$valid).toBe(false);
-    expect(html.find('div')[0].classList.contains('has-error')).toBe(true)
-  });
+    expect($scope.TestForm.username.$valid).toBe(false)
+    expect(html.find("div")[0].classList.contains("has-error")).toBe(true)
+  })
 
-  it('should not add `has-error` class when the input is valid', function() {
-    var html = compileBetterErrors();
-    $scope.TestForm.username.$setViewValue('someUsername');
-    $scope.TestForm.$setSubmitted(true);
-    $scope.$digest();
+  it("should not add `has-error` class when the input is valid", function() {
+    var html = compileBetterErrors()
+    $scope.TestForm.username.$setViewValue("someUsername")
+    $scope.TestForm.$setSubmitted(true)
+    $scope.$digest()
 
-    expect($scope.TestForm.username.$valid).toBe(true);
-    expect(html.find('div')[0].classList.contains('has-error')).toBe(false)
-  });
+    expect($scope.TestForm.username.$valid).toBe(true)
+    expect(html.find("div")[0].classList.contains("has-error")).toBe(false)
+  })
 
-  it('should explode if no matching child element is found', function() {
+  it("should explode if no matching child element is found", function() {
     var bad_compilation = function() {
-      compile([
-        '<div show-errors>',
+      compile(
+        [
+          "<div show-errors>",
           '<input type="text" name="username" ng-model="username" ng-required=true class="missing-form-control-class" />',
-        '</div>',
-      ].join('\n'))
+          "</div>",
+        ].join("\n")
+      )
     }
-    expect(bad_compilation).toThrow();
-  });
-});
+    expect(bad_compilation).toThrow()
+  })
+})
 ```
 
 ## Conclusion

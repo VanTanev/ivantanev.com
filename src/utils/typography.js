@@ -6,8 +6,16 @@ Wordpress2016.overrideThemeStyles = () => {
     "a.gatsby-resp-image-link": {
       boxShadow: `none`,
     },
+    h3: {
+      marginTop: "1.75rem",
+    },
+    h4: {
+      textTransform: "initial",
+    },
   }
 }
+
+Wordpress2016.baseFontSize = '20px'
 
 delete Wordpress2016.googleFonts
 
