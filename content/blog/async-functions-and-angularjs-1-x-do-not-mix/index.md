@@ -28,20 +28,21 @@ function updateItem(item) {
 
 The issue comes up here:
 
-```javascript
+<!-- prettier-ignore-start -->
+```javascript{6}
 function SomeCtrl(initialItem) {
   this.item = initialItem
 
-  this.onClickSave = function() {
+  this.onClick = function() {
     updateItem(this.item)
-      // The async implementation of updateItem() would break the following line.
-      // The changed `this.item` on the controller will not be reflected in
-      // the DOM, or watchers, until a random digest cycle from some other code
-      // picks it up.
       .then(updatedItem => (this.item = updatedItem))
   }
 }
 ```
+<!-- prettier-ignore-end -->
+
+> The `async function` implementation of `updateItem()` would break the following line.
+> The changed `this.item` on the controller will not be reflected in the DOM, or watchers, until a random digest cycle from some other code picks it up.
 
 The reason is the same as why AngularJS provides interfaces like `$timeout()`, `$interval()` and its own Promise library, `$q`.
 AngularJS needs to wrap asynchronous interfaces in order to execute its digest cycle after they finish.
@@ -56,7 +57,7 @@ To make the `async function` work in our controller, we would need to do:
 function SomeCtrl(initialItem) {
   this.item = initialItem
 
-  this.onClickSave = function() {
+  this.onClick = function() {
     $q.resolve(updateItem(this.item)).then(
       updatedItem => (this.item = updatedItem)
     )
@@ -70,7 +71,7 @@ or use another async function and a `$rootScope.apply()` around our controller c
 function SomeCtrl(initialItem) {
   this.item = initialItem
 
-  this.onClickSave = async function() {
+  this.onClick = async function() {
     const updatedItem = await updateItem(this.item)
     $rootScope.$apply(() => {
       this.item = updatedItem
@@ -78,8 +79,6 @@ function SomeCtrl(initialItem) {
   }
 }
 ```
-
-
 
 We end up manually wrapping any effects of `async function` code into `$rootScope.$apply()`, or wrap Promises with `$q.resolve()`. This makes it not worth using `async function` in the first place. This is unfortunate when we need to coordinate multiple async tasks, as the `async/await` interfaces make that much nicer.
 

@@ -12,10 +12,20 @@ Wordpress2016.overrideThemeStyles = () => {
     h4: {
       textTransform: "initial",
     },
+    "p code": {
+      fontSize: "0.75rem",
+    },
+    // TODO: why tho
+    "h1 code, h2 code, h3 code, h4 code, h5 code, h6 code": {
+      fontSize: "inherit",
+    },
+    "li code": {
+      fontSize: "0.75rem",
+    },
   }
 }
 
-Wordpress2016.baseFontSize = '20px'
+Wordpress2016.baseFontSize = "16px"
 
 delete Wordpress2016.googleFonts
 
