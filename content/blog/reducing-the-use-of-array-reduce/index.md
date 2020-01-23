@@ -4,7 +4,9 @@ date: "2020-01-19T00:00:00+02:00"
 description: Refactoring a complicated use of reduce() to code that is easier to read.
 ---
 
-We are going to refactor a complicated use of reduce() to something more manageable, talk about the motivation for avoiding reduce and look at some other examples.
+We are going to refactor a complicated use of reduce() to something more manageable, step by step.
+
+### This is the refactoring we'll walk through today:
 
 ```diff
  import { FormikErrors } from 'formik'
@@ -37,9 +39,10 @@ We are going to refactor a complicated use of reduce() to something more managea
 +    .flatMap(value =>
 +      typeof value === "object" ? flattenErrors(value) : value
 +    )
-+    .filter((v): v is string => typeof v === "string");
-}
++    .filter((v): v is string => typeof v === "string")
+ }
 ```
+
 
 <br />
 
@@ -189,31 +192,32 @@ Further, we can do this change:
 These two forms are equivalent. Let me illustrate:
 
 ```typescript
-let value = ['1', null, '2']
-let memo = ['0']
+let value = ["1", null, "2"]
+let memo = ["0"]
 
 // using memo.concat(...value.map(flattenErrors)
 {
-    let r1 = memo.concat(...['1', null, '3'].map(flattenErrors))
-    // unrolling the map, this becomes
-    let r2 = memo.concat(...[flattenErrors('1'), flattenErrors(null), flattenErrors('3')])
-    // executing the flattenErrors() fn, this is
-    let r3 = memo.concat(...[['1'], [], ['3']])
-    // unrolling the spread, this becomes
-    let r3 = memo.concat(['1'], [], ['3'])
-    // concat result
-    let r4 = ['0', '1', '3']
+  let r1 = memo.concat(...["1", null, "3"].map(flattenErrors))
+  // unrolling the map, this becomes
+  let r2 = memo.concat(
+    ...[flattenErrors("1"), flattenErrors(null), flattenErrors("3")]
+  )
+  // executing the flattenErrors() fn, this is
+  let r3 = memo.concat(...[["1"], [], ["3"]])
+  // unrolling the spread, this becomes
+  let r3 = memo.concat(["1"], [], ["3"])
+  // concat result
+  let r4 = ["0", "1", "3"]
 }
 
 // using memo.concat(flattenError(value))
 {
-    let r1 = memo.concat(flattenErrors(['1', null, '3']))
-    // flattenErrors() will return the array without the non-string value
-    let r2 = memo.concat(['1', '3'])
-    // concat result
-    let r4 = ['0', '1', '3']
+  let r1 = memo.concat(flattenErrors(["1", null, "3"]))
+  // flattenErrors() will return the array without the non-string value
+  let r2 = memo.concat(["1", "3"])
+  // concat result
+  let r4 = ["0", "1", "3"]
 }
-
 ```
 
 We end up with some duplication:
