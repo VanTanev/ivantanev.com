@@ -5,8 +5,8 @@ module.exports = {
     description: `One line at a time`,
     siteUrl: `https://gatsby-starter-blog-demo.netlify.com/`,
     social: {
-        twitter: `VanTanev`,
-        github: `VanTanev`
+      twitter: `VanTanev`,
+      github: `VanTanev`,
     },
   },
   plugins: [

@@ -69,7 +69,6 @@ class Layout extends React.Component {
           {` `}
           <a href="https://www.gatsbyjs.org">Gatsby</a>
           <br />
-
           <a
             style={typography.adjustFontSizeTo(8)}
             href="https://github.com/VanTanev/ivantanev.com"
