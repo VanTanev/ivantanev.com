@@ -6,7 +6,7 @@ description: Refactoring a complicated use of reduce() to code that is easier to
 
 We are going to refactor a complicated use of reduce() to something more manageable, step by step.
 
-### This is the refactoring we'll walk through today:
+## This is the refactoring we'll walk through today:
 
 ```diff
  import { FormikErrors } from 'formik'

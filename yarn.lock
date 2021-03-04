@@ -5875,13 +5875,13 @@ gatsby-plugin-gatsby-cloud@^2.0.0:
     lodash "^4.17.20"
     webpack-assets-manifest "^5.0.1"
 
-gatsby-plugin-google-analytics@^3.0.0:
+gatsby-plugin-google-gtag@^3.0.0:
   version "3.0.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-google-analytics/-/gatsby-plugin-google-analytics-3.0.0.tgz#c3d277c5f71758efe2f6be1e3d13379ea38a67d9"
-  integrity sha512-a4jaitK8/oUW0oJEv19H6Yo4/ROM0QF0EumwDP0Nnhg+2KXDyZ7DJGmkvb8neZuKi77u8iZN2VPIFCeAioG/GQ==
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-google-gtag/-/gatsby-plugin-google-gtag-3.0.0.tgz#9d8884b256b25f9d62ab70189fd731377d178ee3"
+  integrity sha512-6zTmPUkAHd4NOEK2HY72Xf4VDGjDxvTxUaX4pE8irFqywuOfcdrmKzhbmjPfGh7mwwe1Otj1hyonI8ugKqD1Fg==
   dependencies:
     "@babel/runtime" "^7.12.5"
-    minimatch "3.0.4"
+    minimatch "^3.0.4"
 
 gatsby-plugin-image@^1.0.0:
   version "1.0.0"
@@ -5970,6 +5970,13 @@ gatsby-plugin-sharp@^3.0.0:
     sharp "^0.27.0"
     svgo "1.3.2"
     uuid "3.4.0"
+
+gatsby-plugin-twitter@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-twitter/-/gatsby-plugin-twitter-3.0.0.tgz#6ba1278aa8ee25377b1a0081a0848e633bc4573d"
+  integrity sha512-krn2qtuFx1SahLLWy3pt4Bih/q76mG2mmR4ek/EJeAwaZHhvh8Yj15zx5W33vhPe5028GVDE3ll2s/8pec8gAw==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
 
 gatsby-plugin-typescript@^3.0.0:
   version "3.0.0"
