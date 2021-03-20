@@ -158,9 +158,7 @@ We can rewrite the whole `AppHeader` directive from Krasimir's original code in 
   </ul>
 </header>
 
-<form ng-show="form_visible">
-  [...]
-</form>
+<form ng-show="form_visible">[...]</form>
 ```
 
 AngularJS allows us to assign dynamic attributes on the current scope directly in HTML, and check their value in real time.
@@ -549,14 +547,14 @@ Leverage your framework. Be lazy. Write less code and you will have to maintain 
 <a href="http://plnkr.co/edit/GDeYh5wZCJDpYCtNHOag?p=preview">Live tests for the adFloat directive</a>
 
 ```js
-describe("adFloat", function() {
+describe("adFloat", function () {
   var $scope, $compile, $timeout
   // load the Angular module that holds the directive
   beforeEach(module("myApp"))
 
   // use Angular's inject service to get a few services, and then assign them
   // to the local variables defined above
-  beforeEach(inject(function(_$rootScope_, _$compile_, _$timeout_) {
+  beforeEach(inject(function (_$rootScope_, _$compile_, _$timeout_) {
     $scope = _$rootScope_.$new()
     $compile = _$compile_
     $timeout = _$timeout_
@@ -586,14 +584,14 @@ describe("adFloat", function() {
     )
   }
 
-  it("should be valid when empty", function() {
+  it("should be valid when empty", function () {
     compileAdFloat()
 
     // we can check validity directly by accessing form controller -> model controller
     expect($scope.TestForm.float_input.$valid).toBe(true)
   })
 
-  it("should be ng-invalid-float when given invalid value", function() {
+  it("should be ng-invalid-float when given invalid value", function () {
     var html = compileAdFloat()
     $scope.TestForm.float_input.$setViewValue("ggbg") // set an invalid value
     $scope.$digest()
@@ -605,7 +603,7 @@ describe("adFloat", function() {
     )
   })
 
-  it("should convert a string to a float number with 2 decimal places", function() {
+  it("should convert a string to a float number with 2 decimal places", function () {
     compileAdFloat()
     $scope.TestForm.float_input.$setViewValue("12.3") // set a valid value
 
@@ -617,14 +615,14 @@ describe("adFloat", function() {
 <a href="http://plnkr.co/edit/LzlcxTXwZNogwCznPdIE?p=preview">Live tests for the showErrors directive</a>
 
 ```js
-describe("showErrors", function() {
+describe("showErrors", function () {
   var $scope, $compile, $timeout
   // load the Angular module that holds the directive
   beforeEach(module("myApp"))
 
   // use Angular's inject service to get a few services, and then assign them
   // to the local variables defined above.
-  beforeEach(inject(function(_$rootScope_, _$compile_, _$timeout_) {
+  beforeEach(inject(function (_$rootScope_, _$compile_, _$timeout_) {
     $scope = _$rootScope_.$new()
     $compile = _$compile_
     $timeout = _$timeout_
@@ -657,7 +655,7 @@ describe("showErrors", function() {
     )
   }
 
-  it("should not add the `has-error` class when the input has not been touched", function() {
+  it("should not add the `has-error` class when the input has not been touched", function () {
     var html = compileBetterErrors()
 
     // we can check validity directly by accessing form controller -> model controller
@@ -665,7 +663,7 @@ describe("showErrors", function() {
     expect(html.find("div")[0].classList.contains("has-error")).toBe(false)
   })
 
-  it("should add the `has-error` class when the input has been touched", function() {
+  it("should add the `has-error` class when the input has been touched", function () {
     var html = compileBetterErrors()
     html.find("input")[0].dispatchEvent(new Event("blur")) // trigger an event on the compiled html
     $scope.$digest() // and then execute the digest cycle
@@ -674,7 +672,7 @@ describe("showErrors", function() {
     expect(html.find("div")[0].classList.contains("has-error")).toBe(true)
   })
 
-  it("should add the `has-error` class when the form has been submitted", function() {
+  it("should add the `has-error` class when the form has been submitted", function () {
     var html = compileBetterErrors()
     $scope.TestForm.$setSubmitted(true)
     $scope.$digest()
@@ -683,7 +681,7 @@ describe("showErrors", function() {
     expect(html.find("div")[0].classList.contains("has-error")).toBe(true)
   })
 
-  it("should not add `has-error` class when the input is valid", function() {
+  it("should not add `has-error` class when the input is valid", function () {
     var html = compileBetterErrors()
     $scope.TestForm.username.$setViewValue("someUsername")
     $scope.TestForm.$setSubmitted(true)
@@ -693,8 +691,8 @@ describe("showErrors", function() {
     expect(html.find("div")[0].classList.contains("has-error")).toBe(false)
   })
 
-  it("should explode if no matching child element is found", function() {
-    var bad_compilation = function() {
+  it("should explode if no matching child element is found", function () {
+    var bad_compilation = function () {
       compile(
         [
           "<div show-errors>",

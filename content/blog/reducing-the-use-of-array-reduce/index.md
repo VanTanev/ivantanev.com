@@ -6,7 +6,7 @@ description: Refactoring a complicated use of reduce() to code that is easier to
 
 We are going to refactor a complicated use of reduce() to something more manageable, step by step.
 
-### This is the refactoring we'll walk through today:
+## This is the refactoring we'll walk through today:
 
 ```diff
  import { FormikErrors } from 'formik'
@@ -43,7 +43,6 @@ We are going to refactor a complicated use of reduce() to something more managea
  }
 ```
 
-
 <br />
 
 Recently [Jake Archibald](https://twitter.com/jaffathecake) made a tweet that left a strong impression on me (and evidently a few others):
@@ -73,7 +72,7 @@ export const flattenErrors = <T extends unknown>(
     (memo, value) => {
       if (isArray(value)) {
         return memo.concat(
-          flatten(map(value, v => (isString(v) ? v : flattenErrors(v))))
+          flatten(map(value, (v) => (isString(v) ? v : flattenErrors(v))))
         )
       } else if (isObject(value)) {
         return memo.concat(flattenErrors(value))
@@ -146,7 +145,7 @@ export const flattenErrors = <T extends unknown>(
   return Object.values(errors || {}).reduce<string[]>((memo, value) => {
     if (Array.isArray(value)) {
       return memo.concat(
-        ...value.map(v => (typeof v === "string" ? v : flattenErrors(v)))
+        ...value.map((v) => (typeof v === "string" ? v : flattenErrors(v)))
       )
     } else if (typeof value === "object") {
       return memo.concat(flattenErrors(value))
@@ -276,7 +275,7 @@ export const flattenErrors = <T extends unknown>(
   errors: FormikErrors<T>
 ): string[] => {
   return Object.values(errors || {})
-    .flatMap(value =>
+    .flatMap((value) =>
       typeof value === "object" ? flattenErrors(value) : value
     )
     .filter((v): v is string => typeof v === "string")
@@ -297,7 +296,7 @@ import isString from "lodash/isString"
 export const flattenErrorsLodash = <T extends unknown>(
   errors: FormikErrors<T>
 ): string[] => {
-  return flatMap(values<unknown>(errors), value =>
+  return flatMap(values<unknown>(errors), (value) =>
     typeof value === "object" ? flattenErrors(value) : value
   ).filter(isString)
 }
