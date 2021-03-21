@@ -14,17 +14,17 @@ You can experiment with the percentage and fine-tune for your particular setup.
 ```json
 // package.json
 {
-    "scripts": {
-        // standalone Jest
-        "test": "jest --watchAll=false --maxWorkers=50%",
-        "test:watch": "jest --maxWorkers=25%",
-        "test:ci": "jest --watchAll=false --runInBand",
+  "scripts": {
+    // standalone Jest
+    "test": "jest --watchAll=false --maxWorkers=50%",
+    "test:watch": "jest --maxWorkers=25%",
+    "test:ci": "jest --watchAll=false --runInBand",
 
-        // or with Create React App
-        "test": "react-scripts test --watchAll=false --maxWorkers=50%",
-        "test:watch": "react-scripts test --maxWorkers=25%",
-        "test:ci": "react-scripts test --watchAll=false --runInBand",
-    }
+    // or with Create React App
+    "test": "react-scripts test --watchAll=false --maxWorkers=50%",
+    "test:watch": "react-scripts test --maxWorkers=25%",
+    "test:ci": "react-scripts test --watchAll=false --runInBand"
+  }
 }
 ```
 
@@ -40,6 +40,7 @@ This however results in sub-optimal performance on all systems I tested on.
 ## Measuring Jest performance with and without --maxWorkers=50%
 
 These are the stats for the testsuite used. It's a React app with mostly unit tests:
+
 ```bash
 Test Suites: 43 passed, 43 total
 Tests:       1 skipped, 258 passed, 259 total
@@ -47,6 +48,7 @@ Snapshots:   2 passed, 2 total
 ```
 
 Here are the results on an Intel i9-9900KS (5GHz / 8 cores 16 threads):<br><mark>A 21% speedup.</mark>
+
 ```bash
 ➜  test git:(development) ✗ hyperfine 'npm test' 'npm test -- --maxWorkers=50%'
 Benchmark #1: npm test
@@ -61,7 +63,6 @@ Summary
   'npm test -- --maxWorkers=50%' ran
     1.21 ± 0.03 times faster than 'npm test'
 ```
-
 
 And here are the results on a 2016 13" MacBook Pro (3.3GHz / 2 cores 4 threads):<br><mark>A 14% speedup.</mark>
 
@@ -80,14 +81,13 @@ Summary
     1.14 ± 0.03 times faster than 'npm test'
 ```
 
-
-
 ## What about running alongside other programs?
 
 Measuring this is harder, but I have noticed that running with `--maxWorkers=25%` performs the best for my use cases.
 This gives the best performance for `test:watch` alongside code watch/hot reloading, and for running `husky` commit hooks in parallel.
 
 ## What about CI?
+
 In my [and other's](https://github.com/facebook/jest/issues/8202) experience, `--runInBand` can be the fastest option for CI runs.
 
 What does `--runInBand` do? From the [official docs](https://jestjs.io/docs/cli#--runinband):
@@ -104,4 +104,3 @@ If you decide to test this for yourself, I suggest using [hyperfine](https://git
 Hope this was helpful! Feel free to reach out to me on Twitter [@VanTanev](https://twitter.com/VanTanev).
 
 Happy hacking!
-
