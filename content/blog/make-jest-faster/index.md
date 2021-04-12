@@ -26,6 +26,11 @@ When you have `Jest` as your test runner, passing the `--maxWorkers=50%` option 
 }
 ```
 
+## Update 2021-03-29
+
+While a lot of people have reported great results, I have seen some indication that on older Intel CPUs without hyperthreading the above setting results in a performance degradation.
+You should benchmark and validate for your particular setup.
+
 ## How Jest selects the number of workers to use
 
 The [Jest test runner](https://github.com/facebook/jest)—that is also supplied by default with [Create React App](https://reactjs.org/docs/create-a-new-react-app.html)—does not run optimally out of the box.
