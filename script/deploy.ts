@@ -46,7 +46,6 @@ async function prerequsites() {
     await util_commandExists("aws")
 
     const awsVersion = await execa("aws", ["--version"], {
-      extendEnv: false,
       env: {},
     })
     invariant(
