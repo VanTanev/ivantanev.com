@@ -1,7 +1,7 @@
 ---
-title: Safer Node.js coding with githooks
+title: Safer Node.js coding with git hooks and husky
 date: "2021-09-28T00:00:00+02:00"
-description: Practical examples for setting up githooks with husky for safer Node.js development
+description: Practical examples for setting up git hooks with husky for safer Node.js development
 ---
 
 ## Our goals
@@ -10,9 +10,9 @@ description: Practical examples for setting up githooks with husky for safer Nod
 2. Fast local tests before each commit
 3. Auto-install npm dependencies when switching branches
 
-## 0 - The base: Githooks with Husky
+## The base: Git hooks with Husky
 
-[Husky](https://typicode.github.io/husky/) is a thin wrapper around [githooks](https://git-scm.com/docs/githooks) - shell scripts that execute in response to git actions.
+[Husky](https://typicode.github.io/husky/) is a thin wrapper around [git hooks](https://git-scm.com/docs/githooks) - shell scripts that execute in response to git actions.
 Husky configures git to use the `.husky` folder for reading hooks.
 
 Setup is straightforward, install husky
@@ -33,7 +33,7 @@ and setup the `husky install` command to run automatically outside of CI environ
 }
 ```
 
-And finally add a test `pre-commit` hook:
+And finally, add a test `pre-commit` hook:
 
 ```shell
 ➜  npx husky add .husky/pre-commit 'echo "the pre-commit hook ran 🚀"'
@@ -82,7 +82,7 @@ Update `.husky/pre-commit`:
 
 . "$(dirname "$0")/_/husky.sh"
 
-npx pretty-quick --staged // ✅ replace the dummy "echo" command
+npx pretty-quick --staged # ✅ replace the dummy "echo" command
 ```
 
 And we're done, now our files will be auto-formatted by `prettier` before each commit!
@@ -115,7 +115,7 @@ Update `.husky/pre-commit`:
 . "$(dirname "$0")/_/husky.sh"
 
 npx pretty-quick --staged
-npx lint-staged // ✅ add lint-staged
+npx lint-staged # ✅ add lint-staged
 ```
 
 Add `.lintstagedrc.js`
@@ -126,9 +126,9 @@ module.exports = {
   // If any ts/js(x) files changed.
   "**/*.{ts,js}?x": [
     // Execute tests related to the staged files.
-    'npm run test -- --passWithNoTests --bail --findRelatedTests',
+    "npm run test -- --passWithNoTests --bail --findRelatedTests",
 
-    // Run the typechecker. 
+    // Run the typechecker.
     // Anonymous function means: "Do not pass args to the command."
     () => "tsc --noEmit",
   ],
@@ -137,8 +137,8 @@ module.exports = {
 
 # 3. Auto-install npm dependencies when switching branches
 
-A great way to lose time chasing non-existant bugs is to forget that different branches can have different dependencies in `package.json`.
-The following setup will automatically run `npm install` after you switch branches or execute a git command that can modify `package.json`, e.g. a merge.
+A great way to lose time chasing non-existent bugs is to forget that different branches can have different dependencies in `package.json`.
+The following setup will automatically run `npm install` after you switch branches or execute git commands that can modify `package.json`, e.g. a merge.
 
 ```shell
 ➜  npx husky add .husky/post-checkout 'echo "the post-checkout hook ran 🚀"'
@@ -151,11 +151,11 @@ Update `.husky/post-checkout`:
 . "$(dirname "$0")/_/husky.sh"
 
 # From the post-checkout docs https://git-scm.com/docs/githooks#_post_checkout
-# The hook is given three parameters: 
+# The hook is given three parameters:
 #  - the ref of the previous HEAD
 #  - the ref of the new HEAD (which may or may not have changed)
 #  - a flag indicating whether the checkout was:
-#     - a branch checkout (changing branches, flag=1) 
+#     - a branch checkout (changing branches, flag=1)
 #     - a file checkout (retrieving a file from the index, flag=0).
 
 # When the third script parameter is "1" we are executing a branch checkout
@@ -170,7 +170,15 @@ fi
 
 Additionally, we should run `npm install` after a merge or a rewrite.
 We can setup those up with just 2 commands:
+
 ```shell
 ➜  npx husky add .husky/post-merge 'npm ci'
 ➜  npx husky add .husky/post-rewrite 'npm install'
+```
+
+Or with `yarn`:
+
+```shell
+➜  npx husky add .husky/post-merge 'rm -rf node_modules && yarn install --frozen-lockfile'
+➜  npx husky add .husky/post-rewrite 'yarn install'
 ```
