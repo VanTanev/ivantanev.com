@@ -41,7 +41,7 @@ async function prerequsites() {
   /////////////////////////////////
 
   async function prerequisiteAWS() {
-    const AWS_ALLOWED_VERSION = /^aws-cli\/1/
+    const AWS_ALLOWED_VERSION = /^aws-cli\/2/
 
     await util_commandExists("aws")
 
@@ -51,7 +51,7 @@ async function prerequsites() {
     invariant(
       AWS_ALLOWED_VERSION.test(awsVersion.stdout),
       chalk.red(
-        `The deploy script requires aws-cli 1.x. You have an incompatible version installed: ${awsVersion.stdout}`
+        `The deploy script requires aws-cli 2.x. You have an incompatible version installed: ${awsVersion.stdout}`
       )
     )
   }
